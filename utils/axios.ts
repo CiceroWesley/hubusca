@@ -5,9 +5,9 @@ const token = TOKEN_API
 
 const instanceAxios = axios.create({
     baseURL: 'https://api.github.com/',
-    headers: {
-        'Authorization' : `Bearer ${token}`
-    }
+    // headers: {
+    //     'Authorization' : `Bearer ${token}`
+    // }
   });
 
   export default instanceAxios;

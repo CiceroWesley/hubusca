@@ -1,6 +1,6 @@
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Text, View, TextInput, TouchableOpacity, Pressable } from 'react-native';
+import { Text, View, TextInput, Image, Pressable } from 'react-native';
 import instanceAxios from '../utils/axios';
 
 const search = () => {
@@ -9,8 +9,10 @@ const search = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [search, setSearch] = useState<boolean>(false);
+
+  const router = useRouter();
   
-  const onPress = async () => {
+  const onPressSearch = async () => {
     setError('')
     if(username != ''){
       setError('Digite o nome do usuário');
@@ -27,27 +29,34 @@ const search = () => {
 
   }
 
+  const newSearch = () => {
+    setUserData();
+    setUsername();
+  }
+
   return (
     <View>
         <Text>Buscar usuário</Text>
         {!userData && 
         <View>
           <TextInput value={username} onChangeText={(value) => setUsername(value)} />
-          <Pressable onPress={onPress}>
+          <Pressable onPress={onPressSearch}>
             <Text>Pesquisar</Text>
           </Pressable>
         </View>}
 
         {userData &&
           <View>
-            <Text>{userData.avatar_url}</Text>
-            <Text>{userData.name}</Text>
+            <Pressable onPress={() => router.push({ pathname: `/user/${userData.login}`})}>
+              <Image source={{uri: userData.avatar_url}} style = {{ width: 200, height: 200 }}/>
+            </Pressable>
             <Text>{userData.login}</Text>
+            <Text>{userData.name}</Text>
             <Text>{userData.location}</Text>
           </View>
         }
 
-        {userData && <Text onPress={() => setUserData()}>Fazer outra busca</Text>}
+        {userData && <Text onPress={() => newSearch()}>Fazer outra busca</Text>}
         
     </View>
   )
