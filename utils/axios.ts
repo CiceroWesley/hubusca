@@ -5,7 +5,6 @@ const token = TOKEN_API
 
 const instanceAxios = axios.create({
     baseURL: 'https://api.github.com/',
-    timeout: 1000,
     headers: {
         'Authorization' : `Bearer ${token}`
     }
