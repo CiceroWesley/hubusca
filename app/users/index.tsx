@@ -4,29 +4,42 @@ import { Text, View } from 'react-native';
 import useFetchUserData from '../../hooks/useFetchUserData';
 
 const index = () => {
-    const [usersUsername, setUsersUsername] = useState<string[]>();
-    const [usersSearched, setUsersSearched] = useState<any[]>();
-    const {loading, error, fetchUserData} = useFetchUserData();
+    // const [usersUsername, setUsersUsername] = useState<string[]>();
+    const [usersSearched, setUsersSearched] = useState<any[]>([]);
+    const [loading, setLoading] = useState<boolean>(false)
+    const {loading : loadingUser, error : errorUser, userData, setUserData, fetchUserData} = useFetchUserData();
+
+    let usersUsername : string[] =[];
+
     useEffect(() => {
         const getUser = async () => {
             const users = await AsyncStorage.getItem('users');
             if(users){
-                setUsersUsername(JSON.parse(users));
+                usersUsername = JSON.parse(users);
+                getUsersSearched(usersUsername)
             }
         }
         getUser();
+        
     }, []);
 
-    if(usersUsername){
-        console.log(usersUsername)
-
+    const getUsersSearched = async (users : string []) => {
+        setLoading(true)
+        users.map(async (user) : Promise<any> => {
+            await fetchUserData(user).then((response) => {
+                setUsersSearched((prevUsersSearched) => [...prevUsersSearched, response])
+            })
+        })
+        setLoading(false)
     }
 
     return (
         <View>
-            {usersSearched && usersSearched.map((login) => (
+            {!loading && usersSearched && usersSearched.map((user) => (
                 <View>
-                    <Text>{login}</Text>
+                    <Text>{user.login}</Text>
+                    <Text>{user.id}</Text>
+                    <Text>{user.location}</Text>
                 </View>
             ))}
 

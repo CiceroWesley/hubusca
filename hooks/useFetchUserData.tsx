@@ -18,11 +18,11 @@ const useFetchUserData = () => {
             username = username.trim().toLowerCase();
             const response = await instanceAxios.get(`users/${username}`);
             if (response.data.error){
-                console.log(response.data.error)
                 throw(response.data.error)
             }
             setUserData(response.data);
             setLoading(false);
+            return response.data;
             
 
         } catch (errorC) {
