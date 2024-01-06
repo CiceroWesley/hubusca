@@ -1,37 +1,24 @@
 import { Link, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Text, View, TextInput, Image, Pressable } from 'react-native';
-import instanceAxios from '../utils/axios';
+import { Text, View, TextInput, Image, Pressable, ActivityIndicator, Alert } from 'react-native';
+import useFetchUserData from '../hooks/useFetchUserData';
 
 const search = () => {
-  const [username, setUsername] = useState<string>('');
-  const [userData, setUserData] = useState<any>();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
+  const [username, setUsername] = useState<string>();
   const [search, setSearch] = useState<boolean>(false);
+
+  const {loading, error, userData, setUserData, fetchUserData} = useFetchUserData();
 
   const router = useRouter();
   
   const onPressSearch = async () => {
-    setError('')
-    if(username != ''){
-      setError('Digite o nome do usuário');
-    }
-    try {
-      const response = await instanceAxios.get(`users/${username}`);
-      setUserData(response.data);
-      setSearch(true)
-
-    } catch (errorC) {
-      console.log(errorC);
-      setError(errorC);
-    }
-
+    setSearch(true);
+    fetchUserData(String(username));
   }
 
   const newSearch = () => {
-    setUserData();
-    setUsername();
+    setUsername('');
+    setUserData(null);
   }
 
   return (
@@ -45,19 +32,21 @@ const search = () => {
           </Pressable>
         </View>}
 
-        {userData &&
+        {loading && <ActivityIndicator/>}
+        {!loading && userData &&
           <View>
             <Pressable onPress={() => router.push({ pathname: `/user/${userData.login}`})}>
               <Image source={{uri: userData.avatar_url}} style = {{ width: 200, height: 200 }}/>
             </Pressable>
-            <Text>{userData.login}</Text>
             <Text>{userData.name}</Text>
+            <Text>{userData.login}</Text>
             <Text>{userData.location}</Text>
           </View>
         }
 
         {userData && <Text onPress={() => newSearch()}>Fazer outra busca</Text>}
         
+        {error && <Text>{error}</Text>}
     </View>
   )
 }
