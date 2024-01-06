@@ -24,10 +24,8 @@ const search = () => {
   const saveUser = async () => {
     try {
       const users = await AsyncStorage.getItem('users');
-      console.log(users)
       if(users == null){
         let user = [userData.login];
-        console.log(user)
         await AsyncStorage.setItem('users', JSON.stringify(user));
         return;
       }
@@ -36,7 +34,9 @@ const search = () => {
       parsedUsers.forEach((element) => {
         newUsers.push(element)
       })
-      console.log(newUsers)
+      if(!newUsers.includes(userData.login)){
+        newUsers.push(userData.login)
+      }
       await AsyncStorage.setItem('users', JSON.stringify(newUsers));
       
     } catch (error) {
