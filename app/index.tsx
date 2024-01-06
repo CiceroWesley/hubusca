@@ -14,6 +14,7 @@ const index = () => {
         <View>
             <Text>BEM VINDO</Text>
             <Link href="/search">BUSCAR</Link>
+            <Link href="/users">LISTA</Link>
         </View>
     </SafeAreaView>
     

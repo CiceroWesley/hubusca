@@ -1,24 +1,51 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Link, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Text, View, TextInput, Image, Pressable, ActivityIndicator, Alert } from 'react-native';
 import useFetchUserData from '../hooks/useFetchUserData';
 
 const search = () => {
   const [username, setUsername] = useState<string>();
-  const [search, setSearch] = useState<boolean>(false);
 
   const {loading, error, userData, setUserData, fetchUserData} = useFetchUserData();
 
   const router = useRouter();
   
   const onPressSearch = async () => {
-    setSearch(true);
-    fetchUserData(String(username));
+    await fetchUserData(String(username));
   }
 
   const newSearch = () => {
     setUsername('');
     setUserData(null);
+  }
+
+  
+  const saveUser = async () => {
+    try {
+      const users = await AsyncStorage.getItem('users');
+      console.log(users)
+      if(users == null){
+        let user = [userData.login];
+        console.log(user)
+        await AsyncStorage.setItem('users', JSON.stringify(user));
+        return;
+      }
+      let parsedUsers: any[] = JSON.parse(users);
+      let newUsers : any[] = [];
+      parsedUsers.forEach((element) => {
+        newUsers.push(element)
+      })
+      console.log(newUsers)
+      await AsyncStorage.setItem('users', JSON.stringify(newUsers));
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  if(userData){
+    saveUser()
   }
 
   return (
