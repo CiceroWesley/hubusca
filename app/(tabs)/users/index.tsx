@@ -1,9 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
-import useFetchUserData from '../../hooks/useFetchUserData';
-import UserInfo from '../../components/UserInfo/UserInfo';
-import { user } from '../../types/types';
+import useFetchUserData from '../../../hooks/useFetchUserData';
+import UserInfo from '../../../components/UserInfo/UserInfo';
+import { user } from '../../../types/types';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const index = () => {
     const [usersSearched, setUsersSearched] = useState<user[]>([]);
@@ -44,7 +45,8 @@ const index = () => {
 
 
     return (
-        <ScrollView>
+        <SafeAreaView>
+            <ScrollView>
             <View>
                 {usersSearched ? (
                     usersSearched.map((user) => (
@@ -52,7 +54,8 @@ const index = () => {
                     ))
                 ): (<Text>{error}</Text>)}
             </View>
-        </ScrollView>
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 

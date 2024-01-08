@@ -6,18 +6,13 @@ const index = () => {
   
   return (
     <SafeAreaView>
-        <Stack.Screen
-        options={{
-          headerShown: false
-        }}
-        />
-        <View>
+      <View>
             <Text>BEM VINDO</Text>
             <Link href="/search">BUSCAR</Link>
             <Link href="/users">LISTA</Link>
         </View>
     </SafeAreaView>
-    
+        
   )
 }
 

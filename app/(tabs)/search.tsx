@@ -2,9 +2,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Link, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Text, View, TextInput, Image, Pressable, ActivityIndicator, Alert } from 'react-native';
-import useFetchUserData from '../hooks/useFetchUserData';
-import UserInfo from '../components/UserInfo/UserInfo';
-import { user } from '../types/types';
+import useFetchUserData from '../../hooks/useFetchUserData';
+import UserInfo from '../../components/UserInfo/UserInfo';
+import { user } from '../../types/types';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const search = () => {
   const [username, setUsername] = useState<string>();
@@ -16,6 +17,7 @@ const search = () => {
   const onPressSearch = async () => {
     const response = await fetchUserData(String(username));
     if(response && response!== 404){
+      // console.log(response)
       saveUser(response)
     }
   }
@@ -50,7 +52,8 @@ const search = () => {
   }
 
   return (
-    <View>
+    <SafeAreaView>
+      <View>
         <Text>Buscar usuário</Text>
         {!userData && 
         <View>
@@ -66,7 +69,9 @@ const search = () => {
         {userData && <Text onPress={() => newSearch()}>Fazer outra busca</Text>}
         
         {error && <Text>{error}</Text>}
-    </View>
+      </View>
+    </SafeAreaView>
+    
   )
 }
 

@@ -1,10 +1,11 @@
 import { useLocalSearchParams } from 'expo-router';
 import { Text, View, ActivityIndicator, ScrollView } from 'react-native';
-import useFetchUserData from '../../hooks/useFetchUserData';
-import useFetchUserRepository from '../../hooks/useFetchUserRepository';
+import useFetchUserData from '../../../hooks/useFetchUserData';
+import useFetchUserRepository from '../../../hooks/useFetchUserRepository';
 import { useEffect } from 'react';
-import UserInfoFull from '../../components/UserInfoFull/UserInfoFull';
-import RepositoryInfo from '../../components/RepositoryInfo/RepositoryInfo';
+import UserInfoFull from '../../../components/UserInfoFull/UserInfoFull';
+import RepositoryInfo from '../../../components/RepositoryInfo/RepositoryInfo';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const user = () => {
   const { username } = useLocalSearchParams();
@@ -19,7 +20,8 @@ const user = () => {
   }, [])
 
   return (
-    <View>
+    <SafeAreaView>
+      <View>
         {loadingUser && <ActivityIndicator/>}
         {!loadingUser && userData && <UserInfoFull user={userData}/>}
         {loadingRepository && <ActivityIndicator/>}
@@ -36,7 +38,9 @@ const user = () => {
       
         {errorUser && <Text>{errorUser}</Text>}
 
-    </View>
+      </View>
+    </SafeAreaView>
+    
   )
 }
 

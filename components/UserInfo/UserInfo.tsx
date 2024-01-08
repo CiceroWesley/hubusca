@@ -6,7 +6,7 @@ const UserInfo = ({user} : userWrapper) => {
   const router = useRouter()
   return (
     <View >
-      <Pressable onPress={() => router.push({ pathname: `/user/${user.login}`})}>
+      <Pressable onPress={() => router.push({ pathname: `(tabs)/user/${user.login}`})}>
         <Image source={{uri: user.avatar_url}} style = {{ width: 200, height: 200 }}/>
       </Pressable>
       <Text>{user.name}</Text>
