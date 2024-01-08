@@ -3,6 +3,7 @@ import { Link, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Text, View, TextInput, Image, Pressable, ActivityIndicator, Alert } from 'react-native';
 import useFetchUserData from '../hooks/useFetchUserData';
+import UserInfo from '../components/UserInfo/UserInfo';
 
 const search = () => {
   const [username, setUsername] = useState<string>();
@@ -60,16 +61,7 @@ const search = () => {
         </View>}
 
         {loading && <ActivityIndicator/>}
-        {!loading && userData &&
-          <View>
-            <Pressable onPress={() => router.push({ pathname: `/user/${userData.login}`})}>
-              <Image source={{uri: userData.avatar_url}} style = {{ width: 200, height: 200 }}/>
-            </Pressable>
-            <Text>{userData.name}</Text>
-            <Text>{userData.login}</Text>
-            <Text>{userData.location}</Text>
-          </View>
-        }
+        {!loading && userData && <UserInfo user={userData}/>}
 
         {userData && <Text onPress={() => newSearch()}>Fazer outra busca</Text>}
         

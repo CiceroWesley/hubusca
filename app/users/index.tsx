@@ -2,9 +2,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import useFetchUserData from '../../hooks/useFetchUserData';
+import UserInfo from '../../components/UserInfo/UserInfo';
 
 const index = () => {
-    // const [usersUsername, setUsersUsername] = useState<string[]>();
     const [usersSearched, setUsersSearched] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(false)
     const {loading : loadingUser, error : errorUser, userData, setUserData, fetchUserData} = useFetchUserData();
@@ -36,11 +36,7 @@ const index = () => {
     return (
         <View>
             {!loading && usersSearched && usersSearched.map((user) => (
-                <View>
-                    <Text>{user.login}</Text>
-                    <Text>{user.id}</Text>
-                    <Text>{user.location}</Text>
-                </View>
+                <UserInfo user={user}/>
             ))}
 
         </View>

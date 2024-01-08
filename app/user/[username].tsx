@@ -4,6 +4,9 @@ import useFetchUserData from '../../hooks/useFetchUserData';
 import useFetchUserRepository from '../../hooks/useFetchUserRepository';
 import { A } from '@expo/html-elements';
 import { useEffect } from 'react';
+import UserInfoFull from '../../components/UserInfoFull/UserInfoFull';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import RepositoryInfo from '../../components/RepositoryInfo/RepositoryInfo';
 
 const user = () => {
   const { username } = useLocalSearchParams();
@@ -20,37 +23,20 @@ const user = () => {
   return (
     <View>
         {loadingUser && <ActivityIndicator/>}
-        {!loadingUser && userData && <View>
-            <Image source={{uri: userData.avatar_url}} style = {{ width: 200, height: 200 }}/>
-            <Text>Name:{userData.name}</Text>
-            <Text>Login:{userData.login}</Text>
-            <Text>Location:{userData.location}</Text>
-            <Text>Id:{userData.id}</Text>
-            <Text>Followers:{userData.followers}</Text>
-            <Text>Public repositories:{userData.public_repos}</Text>
-        </View>}
+        {!loadingUser && userData && <UserInfoFull user={userData}/>}
         {loadingRepository && <ActivityIndicator/>}
 
+        
         <ScrollView>
           {!loadingRepository && repositoryData?.length != 0 &&
             <View>
               {repositoryData?.map((repository) => (
-                <A href={repository.html_url}>
-                  <View>
-                    <Text>{repository.name}</Text>
-                    <Text>{repository.language}</Text>
-                    <Text>{repository.description}</Text>
-                    <Text>{repository.created_at}</Text>
-                    <Text>{repository.pushed_at}</Text>
-                  </View>
-                </A>
+                <RepositoryInfo repository={repository} />
               ))}
             </View>
           }
         </ScrollView>
-
-
-
+      
         {errorUser && <Text>{errorUser}</Text>}
 
     </View>
