@@ -15,7 +15,7 @@ const search = () => {
   
   const onPressSearch = async () => {
     const response = await fetchUserData(String(username));
-    if(response){
+    if(response && response!== 404){
       saveUser(response)
     }
   }
@@ -34,8 +34,8 @@ const search = () => {
         await AsyncStorage.setItem('users', JSON.stringify(user));
         return;
       }
-      let parsedUsers: any[] = JSON.parse(users);
-      let newUsers : any[] = [];
+      let parsedUsers: string[] = JSON.parse(users);
+      let newUsers : string[] = [];
       parsedUsers.forEach((element) => {
         newUsers.push(element)
       })

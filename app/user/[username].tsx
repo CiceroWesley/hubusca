@@ -25,7 +25,7 @@ const user = () => {
         {loadingRepository && <ActivityIndicator/>}
 
         <ScrollView>
-          {!loadingRepository && repositoryData?.length != 0 &&
+          {!loadingRepository && repositoryData && repositoryData?.length != 0 &&
             <View>
               {repositoryData?.map((repository) => (
                 <RepositoryInfo repository={repository} />

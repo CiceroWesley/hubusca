@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { Pressable, Image, Text, View } from 'react-native';
+import { userWrapper } from '../../types/types';
 
-const UserInfoFull = ({user}) => {
+const UserInfoFull = ({user} : userWrapper) => {
   return (
     <View >
       <Image source={{uri: user.avatar_url}} style = {{ width: 200, height: 200 }}/>
