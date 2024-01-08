@@ -2,8 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { Pressable, Image, Text, View } from 'react-native';
 import { useRouter } from 'expo-router/src/hooks';
 import { A } from '@expo/html-elements';
+import { repositoryWrapper } from '../../types/types';
 
-const RepositoryInfo = ({repository}) => {
+const RepositoryInfo = ({repository} : repositoryWrapper) => {
   const router = useRouter()
   return (
     <View >

@@ -1,8 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
 import { Pressable, Image, Text, View } from 'react-native';
 import { useRouter } from 'expo-router/src/hooks';
+import { user, userWrapper } from '../../types/types';
 
-const UserInfo = ({user}) => {
+const UserInfo = ({user} : userWrapper) => {
   const router = useRouter()
   return (
     <View >

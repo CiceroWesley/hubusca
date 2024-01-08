@@ -1,9 +1,10 @@
 import { useState } from "react";
 import instanceAxios from "../utils/axios";
+import { user } from "../types/types";
 
 
 const useFetchUserData = () => {
-    const [userData, setUserData] = useState<any>();
+    const [userData, setUserData] = useState<user>();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -28,6 +29,7 @@ const useFetchUserData = () => {
         } catch (errorC) {
             setError(String(errorC));
             setLoading(false);
+            return errorC
         }
     }
     

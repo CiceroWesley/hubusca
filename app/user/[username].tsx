@@ -1,11 +1,9 @@
-import { Link, useLocalSearchParams } from 'expo-router';
-import { Text, View, Image, ActivityIndicator, ScrollView } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
+import { Text, View, ActivityIndicator, ScrollView } from 'react-native';
 import useFetchUserData from '../../hooks/useFetchUserData';
 import useFetchUserRepository from '../../hooks/useFetchUserRepository';
-import { A } from '@expo/html-elements';
 import { useEffect } from 'react';
 import UserInfoFull from '../../components/UserInfoFull/UserInfoFull';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import RepositoryInfo from '../../components/RepositoryInfo/RepositoryInfo';
 
 const user = () => {
@@ -26,7 +24,6 @@ const user = () => {
         {!loadingUser && userData && <UserInfoFull user={userData}/>}
         {loadingRepository && <ActivityIndicator/>}
 
-        
         <ScrollView>
           {!loadingRepository && repositoryData?.length != 0 &&
             <View>

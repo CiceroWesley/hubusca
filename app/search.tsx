@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Text, View, TextInput, Image, Pressable, ActivityIndicator, Alert } from 'react-native';
 import useFetchUserData from '../hooks/useFetchUserData';
 import UserInfo from '../components/UserInfo/UserInfo';
+import { user } from '../types/types';
 
 const search = () => {
   const [username, setUsername] = useState<string>();
@@ -13,20 +14,23 @@ const search = () => {
   const router = useRouter();
   
   const onPressSearch = async () => {
-    await fetchUserData(String(username));
+    const response = await fetchUserData(String(username));
+    if(response){
+      saveUser(response)
+    }
   }
 
   const newSearch = () => {
     setUsername('');
-    setUserData(null);
+    setUserData(undefined);
   }
 
   
-  const saveUser = async () => {
+  const saveUser = async (response : user) => {
     try {
       const users = await AsyncStorage.getItem('users');
       if(users == null){
-        let user = [userData.login];
+        let user = [response.login];
         await AsyncStorage.setItem('users', JSON.stringify(user));
         return;
       }
@@ -35,18 +39,14 @@ const search = () => {
       parsedUsers.forEach((element) => {
         newUsers.push(element)
       })
-      if(!newUsers.includes(userData.login)){
-        newUsers.push(userData.login)
+      if(!newUsers.includes(response.login)){
+        newUsers.push(response.login)
       }
       await AsyncStorage.setItem('users', JSON.stringify(newUsers));
       
     } catch (error) {
       console.log(error)
     }
-  }
-
-  if(userData){
-    saveUser()
   }
 
   return (

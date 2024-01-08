@@ -1,13 +1,15 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import useFetchUserData from '../../hooks/useFetchUserData';
 import UserInfo from '../../components/UserInfo/UserInfo';
+import { user } from '../../types/types';
 
 const index = () => {
-    const [usersSearched, setUsersSearched] = useState<any[]>([]);
+    const [usersSearched, setUsersSearched] = useState<user[]>([]);
     const [loading, setLoading] = useState<boolean>(false)
-    const {loading : loadingUser, error : errorUser, userData, setUserData, fetchUserData} = useFetchUserData();
+    const [error, setError] = useState<string | null>(null)
+    const { fetchUserData} = useFetchUserData();
 
     let usersUsername : string[] =[];
 
@@ -25,21 +27,32 @@ const index = () => {
 
     const getUsersSearched = async (users : string []) => {
         setLoading(true)
-        users.map(async (user) : Promise<any> => {
-            await fetchUserData(user).then((response) => {
-                setUsersSearched((prevUsersSearched) => [...prevUsersSearched, response])
-            })
-        })
+        const responses: user[] = [];
+        try {
+            for (const username of users) {
+                const response = await fetchUserData(username);
+                responses.push(response);
+            }    
+        } catch (error) {
+            setError('Erro ao buscar usuários')
+            setLoading(false)
+            return;
+        }
+        setUsersSearched(responses);
         setLoading(false)
     }
 
-    return (
-        <View>
-            {!loading && usersSearched && usersSearched.map((user) => (
-                <UserInfo user={user}/>
-            ))}
 
-        </View>
+    return (
+        <ScrollView>
+            <View>
+                {usersSearched ? (
+                    usersSearched.map((user) => (
+                        <UserInfo user={user}/>
+                    ))
+                ): (<Text>{error}</Text>)}
+            </View>
+        </ScrollView>
     )
 }
 

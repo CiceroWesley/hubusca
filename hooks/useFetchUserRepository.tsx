@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import instanceAxios from "../utils/axios";
+import { repository } from "../types/types";
 
 
 const useFetchUserRepository = (username : string) => {
-    const [repositoryData, setRepositoryData] = useState<any[]>();
+    const [repositoryData, setRepositoryData] = useState<repository[]>();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -16,11 +17,13 @@ const useFetchUserRepository = (username : string) => {
                     throw(response.data.error);
                 }
                 setRepositoryData(response.data);
-                setLoading(false)
+                setLoading(false);
+                return response.data;
 
             } catch (errorC) {
                 setError(String(errorC));
                 setLoading(false);
+                return errorC;
             }
         }
         getRepositories();
