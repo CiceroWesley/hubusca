@@ -16,7 +16,8 @@ export default function Layout() {
         options={{
           headerShown: false,
           tabBarIcon: () => <Feather name="list" size={24} color="black" />,
-          tabBarLabel: 'Usuários recentes'
+          tabBarLabel: 'Usuários recentes',
+          unmountOnBlur: true,
         }}
         />
         <Tabs.Screen

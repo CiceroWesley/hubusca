@@ -9,17 +9,21 @@ const ImageCircle = styled.Image`
   height: 200px;
 `
 
+const WraperUser = styled.View`
+  margin-top: 10px;
+`
+
 const UserInfo = ({user} : userWrapper) => {
   const router = useRouter()
   return (
-    <View >
+    <WraperUser >
       <Pressable onPress={() => router.push({ pathname: `(tabs)/user/${user.login}`})}>
         <ImageCircle source={{uri: user.avatar_url}} />
       </Pressable>
-      <Text>Nome:{user.name ? user.name : 'Não disponível'}</Text>
-      <Text>Login:{user.login ? user.login : 'Não disponível'}</Text>
-      <Text>Localização:{user.location ? user.location : 'Não disponível'}</Text>
-    </View>
+      <Text>Nome: {user.name ? user.name : 'Não disponível'}</Text>
+      <Text>Login: {user.login ? user.login : 'Não disponível'}</Text>
+      <Text>Localização: {user.location ? user.location : 'Não disponível'}</Text>
+    </WraperUser>
   );
 }
 

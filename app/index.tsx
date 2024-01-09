@@ -41,14 +41,17 @@ const index = () => {
   return (
     <SafeAreaView>
       <WrapperFlexCol>
-            <WrapperWelcomeImage>
-              <Welcome>HUBUSCA</Welcome>
-              <AntDesign name="github" size={64} color="black" />
-            </WrapperWelcomeImage>
-            <Button onPress={() => router.push('search')}>
-              <AntDesign name="arrowright" size={24} color="black" />
-            </Button>
-        </WrapperFlexCol>
+        <WrapperWelcomeImage>
+          <Welcome>HUBUSCA</Welcome>
+          <AntDesign name="github" size={64} color="black" />
+        </WrapperWelcomeImage>
+        <Button onPress={() => router.push('search')}>
+          <AntDesign name="arrowright" size={24} color="black" />
+        </Button>
+        <Text>Por: Cicero Wesley Suares Feitosa</Text>
+      </WrapperFlexCol>
+
+        
     </SafeAreaView>
         
   )

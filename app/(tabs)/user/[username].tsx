@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from 'expo-router';
-import { Text, View, ActivityIndicator, ScrollView } from 'react-native';
+import { Text, View, ActivityIndicator, ScrollView, FlatList } from 'react-native';
 import useFetchUserData from '../../../hooks/useFetchUserData';
 import useFetchUserRepository from '../../../hooks/useFetchUserRepository';
 import { useEffect } from 'react';
@@ -12,8 +12,17 @@ import { styled } from 'styled-components/native';
 
 const WraperView = styled.View`
   display: flex;
-  flex-direction: col;
+  flex-direction: column;
   align-items: center;
+`
+
+const WraperRepo = styled.View`
+  margin-left: 6px;
+  margin-right: 6px;
+`
+
+const WraperSafeView = styled.SafeAreaView`
+  margin-bottom: 15px;
 `
 
 const user = () => {
@@ -31,25 +40,18 @@ const user = () => {
   return (
     <SafeAreaView>
       <WraperView>
-        {loadingUser && <ActivityIndicator/>}
+        {loadingUser && <ActivityIndicator size={'large'}/>}
         {!loadingUser && userData && <UserInfoFull user={userData}/>}
         {loadingRepository && <ActivityIndicator size={'large'}/>}
-
-        
-        
-          {!loadingRepository && repositoryData && repositoryData?.length != 0 &&
-            <View>
-              {repositoryData?.map((repository) => (
-                <RepositoryInfo repository={repository} />
-              ))}
-            </View>
-          }
-      
         {errorUser && <Text>{errorUser}</Text>}
 
       </WraperView>
+      <WraperRepo>
+        {!loadingRepository && repositoryData && repositoryData?.length != 0 && <FlatList data={repositoryData} renderItem={({item}) => (<RepositoryInfo repository={item}/>)}/>
+      }
+      </WraperRepo>
+      
     </SafeAreaView>
-    
   )
 }
 

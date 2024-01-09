@@ -1,11 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 import useFetchUserData from '../../../hooks/useFetchUserData';
 import UserInfo from '../../../components/UserInfo/UserInfo';
 import { user } from '../../../types/types';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
+
+
 
 const WraperView = styled.View`
     display: flex;
@@ -27,6 +29,7 @@ const index = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
     const { fetchUserData} = useFetchUserData();
+
 
     let usersUsername : string[] =[];
 
@@ -66,12 +69,13 @@ const index = () => {
                 <WraperView>
                     <SearchUser>Usuários pesquisados</SearchUser>
                     {usersSearched ? (
-                        usersSearched.map((user) => (
-                            <UserInfo user={user}/>
+                        usersSearched.map((user, index) => (
+                            <UserInfo key={index} user={user}/>
                         ))
                     ): (<Text>{error}</Text>)}
                 </WraperView>
             </ScrollView>
+            {loading && <ActivityIndicator size={'large'}/>}
         </SafeAreaView>
     )
 }
