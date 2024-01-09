@@ -6,6 +6,44 @@ import useFetchUserData from '../../hooks/useFetchUserData';
 import UserInfo from '../../components/UserInfo/UserInfo';
 import { user } from '../../types/types';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import {styled} from 'styled-components/native';
+import { Ionicons } from '@expo/vector-icons';
+
+const SearchUser = styled.Text`
+  font-weight: bold;
+  font-size: 26px;
+`
+
+const Button = styled.TouchableOpacity`
+  background-color: #95f5f0;
+  padding: 15px;
+  border-radius: 50px;
+  align-items: center;
+`
+
+const TextInputS = styled.TextInput`
+  align-items: center;
+  padding: 2px;
+`
+
+const WraperTextInputIcon = styled.View`
+  border: 1px solid black;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px;
+  width: 15%;
+  max-width: 23%;
+`
+
+const WraperView = styled.View`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
 
 const search = () => {
   const [username, setUsername] = useState<string>();
@@ -19,6 +57,7 @@ const search = () => {
     if(response && response!== 404){
       // console.log(response)
       saveUser(response)
+      setUsername('');
     }
   }
 
@@ -26,7 +65,6 @@ const search = () => {
     setUsername('');
     setUserData(undefined);
   }
-
   
   const saveUser = async (response : user) => {
     try {
@@ -41,7 +79,7 @@ const search = () => {
       parsedUsers.forEach((element) => {
         newUsers.push(element)
       })
-      if(!newUsers.includes(response.login)){
+      if(!newUsers.includes(response.login) && response.login !== ''){
         newUsers.push(response.login)
       }
       await AsyncStorage.setItem('users', JSON.stringify(newUsers));
@@ -53,23 +91,24 @@ const search = () => {
 
   return (
     <SafeAreaView>
-      <View>
-        <Text>Buscar usuário</Text>
+      <WraperView>
+        <SearchUser>Busque algum usuário do Github</SearchUser>
         {!userData && 
         <View>
-          <TextInput value={username} onChangeText={(value) => setUsername(value)} />
-          <Pressable onPress={onPressSearch}>
-            <Text>Pesquisar</Text>
-          </Pressable>
+          <WraperTextInputIcon>
+            <Ionicons name="search" size={16} color="black" />
+            <TextInputS placeholder='Username' onChangeText={(value) => setUsername(value)}/>
+          </WraperTextInputIcon>
+          <Button onPress={onPressSearch}><Text>Pesquisar</Text></Button>
         </View>}
 
-        {loading && <ActivityIndicator/>}
+        {loading && <ActivityIndicator size={'large'}/>}
         {!loading && userData && <UserInfo user={userData}/>}
 
-        {userData && <Text onPress={() => newSearch()}>Fazer outra busca</Text>}
+        {userData && <Button onPress={() => newSearch()}><Text>Nova busca</Text></Button>}
         
         {error && <Text>{error}</Text>}
-      </View>
+      </WraperView>
     </SafeAreaView>
     
   )

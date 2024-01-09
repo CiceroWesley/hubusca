@@ -1,17 +1,24 @@
 import { Pressable, Image, Text, View } from 'react-native';
 import { useRouter } from 'expo-router/src/hooks';
 import { user, userWrapper } from '../../types/types';
+import {styled} from 'styled-components/native'
+
+const ImageCircle = styled.Image`
+  border-radius: 70px;
+  width: 200px;
+  height: 200px;
+`
 
 const UserInfo = ({user} : userWrapper) => {
   const router = useRouter()
   return (
     <View >
       <Pressable onPress={() => router.push({ pathname: `(tabs)/user/${user.login}`})}>
-        <Image source={{uri: user.avatar_url}} style = {{ width: 200, height: 200 }}/>
+        <ImageCircle source={{uri: user.avatar_url}} />
       </Pressable>
-      <Text>{user.name}</Text>
-      <Text>{user.login}</Text>
-      <Text>{user.location}</Text>
+      <Text>Nome:{user.name ? user.name : 'Não disponível'}</Text>
+      <Text>Login:{user.login ? user.login : 'Não disponível'}</Text>
+      <Text>Localização:{user.location ? user.location : 'Não disponível'}</Text>
     </View>
   );
 }

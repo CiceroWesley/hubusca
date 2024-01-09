@@ -9,10 +9,10 @@ const useFetchUserData = () => {
     const [error, setError] = useState<string | null>(null);
 
     const fetchUserData = async (username : string) =>{
-        setError(null)
-        if(username !
-            == ''){
+        setError(null);
+        if(username === "undefined"){
             setError('Digite o nome do usuário');
+            return;
         }
         setLoading(true)
         try {

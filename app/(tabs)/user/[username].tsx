@@ -6,6 +6,15 @@ import { useEffect } from 'react';
 import UserInfoFull from '../../../components/UserInfoFull/UserInfoFull';
 import RepositoryInfo from '../../../components/RepositoryInfo/RepositoryInfo';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { styled } from 'styled-components/native';
+
+
+
+const WraperView = styled.View`
+  display: flex;
+  flex-direction: col;
+  align-items: center;
+`
 
 const user = () => {
   const { username } = useLocalSearchParams();
@@ -17,16 +26,17 @@ const user = () => {
       await fetchUserData(String(username));
     }
     fetch();
-  }, [])
+  }, [username])
 
   return (
     <SafeAreaView>
-      <View>
+      <WraperView>
         {loadingUser && <ActivityIndicator/>}
         {!loadingUser && userData && <UserInfoFull user={userData}/>}
-        {loadingRepository && <ActivityIndicator/>}
+        {loadingRepository && <ActivityIndicator size={'large'}/>}
 
-        <ScrollView>
+        
+        
           {!loadingRepository && repositoryData && repositoryData?.length != 0 &&
             <View>
               {repositoryData?.map((repository) => (
@@ -34,11 +44,10 @@ const user = () => {
               ))}
             </View>
           }
-        </ScrollView>
       
         {errorUser && <Text>{errorUser}</Text>}
 
-      </View>
+      </WraperView>
     </SafeAreaView>
     
   )

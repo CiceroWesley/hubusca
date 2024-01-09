@@ -5,6 +5,22 @@ import useFetchUserData from '../../../hooks/useFetchUserData';
 import UserInfo from '../../../components/UserInfo/UserInfo';
 import { user } from '../../../types/types';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import styled from 'styled-components/native';
+
+const WraperView = styled.View`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
+
+const SearchUser = styled.Text`
+  font-weight: bold;
+  font-size: 26px;
+`
+
+const SpaceBetweenItem = styled.View`
+    margin-top: 4px;
+`
 
 const index = () => {
     const [usersSearched, setUsersSearched] = useState<user[]>([]);
@@ -47,13 +63,14 @@ const index = () => {
     return (
         <SafeAreaView>
             <ScrollView>
-            <View>
-                {usersSearched ? (
-                    usersSearched.map((user) => (
-                        <UserInfo user={user}/>
-                    ))
-                ): (<Text>{error}</Text>)}
-            </View>
+                <WraperView>
+                    <SearchUser>Usuários pesquisados</SearchUser>
+                    {usersSearched ? (
+                        usersSearched.map((user) => (
+                            <UserInfo user={user}/>
+                        ))
+                    ): (<Text>{error}</Text>)}
+                </WraperView>
             </ScrollView>
         </SafeAreaView>
     )
