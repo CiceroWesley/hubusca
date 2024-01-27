@@ -12,6 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 const SearchUser = styled.Text`
   font-weight: bold;
   font-size: 26px;
+  margin-top: 20px;
 `
 
 const Button = styled.TouchableOpacity`
@@ -24,6 +25,7 @@ const Button = styled.TouchableOpacity`
 const TextInputS = styled.TextInput`
   align-items: center;
   padding: 2px;
+  width: 100%;
 `
 
 const WraperTextInputIcon = styled.View`
@@ -33,9 +35,8 @@ const WraperTextInputIcon = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 2px;
-  width: 15%;
-  max-width: 23%;
+  width: 30%;
+  margin-bottom: 10px;
 `
 
 const WraperView = styled.View`
@@ -43,7 +44,12 @@ const WraperView = styled.View`
   flex-direction: column;
   align-items: center;
 `
-
+const WraperSpace = styled.View`
+  margin-top: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
 
 const search = () => {
   const [username, setUsername] = useState<string>();
@@ -94,13 +100,14 @@ const search = () => {
       <WraperView>
         <SearchUser>Busque algum usuário do Github</SearchUser>
         {!userData && 
-        <View>
+        <WraperSpace>
+          <Text>Insira o nome de usuário:</Text>
           <WraperTextInputIcon>
             <Ionicons name="search" size={16} color="black" />
             <TextInputS placeholder='Username' onChangeText={(value) => setUsername(value)}/>
           </WraperTextInputIcon>
           <Button onPress={onPressSearch}><Text>Pesquisar</Text></Button>
-        </View>}
+        </WraperSpace>}
 
         {loading && <ActivityIndicator size={'large'}/>}
         {!loading && userData && <UserInfo user={userData}/>}
